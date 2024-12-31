@@ -1,0 +1,44 @@
+stages:
+  prepare:
+    cmd: python src/data/data_preprocessor.py
+    deps:
+      - Data/MachineLearningRating_v3/MachineLearningRating_v3.txt
+      - src/data/data_preprocessor.py
+    outs:
+      - data/processed/preprocessed_data.csv
+      - data/interim/feature_groups.pkl
+
+  analyze:
+    cmd: python src/analysis/eda.py
+    deps:
+      - src/analysis/eda.py
+      - data/processed/preprocessed_data.csv
+    outs:
+      - reports/figures/missing_values.png
+      - reports/figures/claims_by_province.png
+      - reports/figures/claims_by_vehicle.png
+      - reports/figures/premium_vs_claims.png
+      - reports/figures/eda_summary.txt
+
+  ab_testing:
+    cmd: python src/analysis/ab_testing.py
+    deps:
+      - src/analysis/ab_testing.py
+      - data/processed/preprocessed_data.csv
+    outs:
+      - reports/ab_testing/claims_by_province_box.png
+      - reports/ab_testing/claims_by_gender_box.png
+      - reports/ab_testing/ab_test_results.txt
+
+  modeling:
+    cmd: python src/analysis/statistical_modeling.py
+    deps:
+      - src/analysis/statistical_modeling.py
+      - data/processed/preprocessed_data.csv
+    outs:
+      - models/xgboost_model.json
+      - reports/modeling/modeling_results.json
+      - reports/modeling/model_performance.png
+    metrics:
+      - reports/modeling/modeling_results.json:
+          cache: false 
