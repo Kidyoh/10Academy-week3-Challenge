@@ -1,0 +1,42 @@
+# .github/workflows/unittests.yml
+name: Unit Tests Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # Specify the Python version you want to use
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          if [ -f environment.yml ]; then
+            conda env create -f environment.yml
+          fi
+
+      - name: Run unit tests
+        run: |
+          # Assuming you are using pytest for testing
+          pytest tests/
+
+      - name: Lint code
+        run: |
+          # Assuming you are using flake8 for linting
+          flake8 src/

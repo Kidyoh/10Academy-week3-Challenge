@@ -1,0 +1,14 @@
+# DVC specific files
+.dvc/cache/
+.dvc/tmp/
+.dvc/config
+.dvc/.gitignore
+.dvc/plots/
+.dvc/stage/
+.dvc/lock
+.dvc/README
+
+# Ignore all data files
+data/raw/*
+data/processed/*
+data/external/*
