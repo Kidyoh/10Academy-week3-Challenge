@@ -31,14 +31,14 @@ stages:
       - reports/ab_testing/ab_test_results.txt
 
   modeling:
-    cmd: python src/analysis/statistical_modeling.py
+    cmd: python src/models/statistical_modeling.py
     deps:
-      - src/analysis/statistical_modeling.py
+      - src/models/statistical_modeling.py
       - data/processed/preprocessed_data.csv
     outs:
-      - models/xgboost_model.json
-      - reports/modeling/modeling_results.json
       - reports/modeling/model_performance.png
+      - reports/modeling/feature_importance_linear.png
+      - reports/modeling/feature_importance_rf.png
+      - reports/modeling/feature_importance_xgb.png
     metrics:
-      - reports/modeling/modeling_results.json:
-          cache: false 
+      - reports/modeling/model_metrics.json 
